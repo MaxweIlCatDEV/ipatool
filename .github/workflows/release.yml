@@ -113,16 +113,16 @@ jobs:
         with:
           name: windows-${{ matrix.arch }}.exe
           path: bin
-      - run: tar -czvf $FILE.tar.gz bin/$FILE.exe
+      - run: tar -czvf bin/$FILE.exe
         env:
-          FILE: windows-${{ matrix.arch }}
+          FILE: ipatool/windows-${{ matrix.arch }}
       - run: ./tools/sha256sum.sh $TARBALL > $TARBALL.sha256sum
         env:
           TARBALL: windows-${{ matrix.arch }}.tar.gz
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: windows-${{ matrix.arch }}.*
+          file: ipatool/windows-${{ matrix.arch }}.*
           tag: ${{ github.ref }}
           overwrite: false
           file_glob: true
@@ -142,14 +142,14 @@ jobs:
           path: bin
       - run: tar -czvf $FILE.tar.gz bin/$FILE
         env:
-          FILE: linux-${{ matrix.arch }}
+          FILE: ipatool/linux-${{ matrix.arch }}
       - run: ./tools/sha256sum.sh $TARBALL > $TARBALL.sha256sum
         env:
           TARBALL: linux-${{ matrix.arch }}.tar.gz
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: linux-${{ matrix.arch }}.*
+          file: ipatool/linux-${{ matrix.arch }}.*
           tag: ${{ github.ref }}
           overwrite: false
           file_glob: true
@@ -174,7 +174,7 @@ jobs:
           path: bin
       - run: tar -czvf $FILE.tar.gz bin/$FILE && rm -rf bin/
         env:
-          FILE: macos-amd64
+          FILE: ipatool/macos-amd64
       - id: sha256
         run: |
           SHA256_ARM64=$(./ipatool/tools/sha256sum.sh macos-arm64.tar.gz)
@@ -186,7 +186,7 @@ jobs:
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ipatool-${{ needs.get_version.outputs.version }}-macos-*
+          file: ipatool/macos-*
           tag: ${{ github.ref }}
           overwrite: false
           file_glob: true
