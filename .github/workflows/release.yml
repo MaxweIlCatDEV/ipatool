@@ -115,14 +115,14 @@ jobs:
           path: bin
       - run: tar -czvf $FILE.tar.gz bin/$FILE.exe
         env:
-          FILE: ipatool-${{ needs.get_version.outputs.version }}-windows-${{ matrix.arch }}
+          FILE: windows-${{ matrix.arch }}
       - run: ./tools/sha256sum.sh $TARBALL > $TARBALL.sha256sum
         env:
-          TARBALL: ipatool-${{ needs.get_version.outputs.version }}-windows-${{ matrix.arch }}.tar.gz
+          TARBALL: windows-${{ matrix.arch }}.tar.gz
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ipatool-${{ needs.get_version.outputs.version }}-windows-${{ matrix.arch }}.*
+          file: windows-${{ matrix.arch }}.*
           tag: ${{ github.ref }}
           overwrite: false
           file_glob: true
@@ -142,14 +142,14 @@ jobs:
           path: bin
       - run: tar -czvf $FILE.tar.gz bin/$FILE
         env:
-          FILE: ipatool-${{ needs.get_version.outputs.version }}-linux-${{ matrix.arch }}
+          FILE: linux-${{ matrix.arch }}
       - run: ./tools/sha256sum.sh $TARBALL > $TARBALL.sha256sum
         env:
-          TARBALL: ipatool-${{ needs.get_version.outputs.version }}-linux-${{ matrix.arch }}.tar.gz
+          TARBALL: linux-${{ matrix.arch }}.tar.gz
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ipatool-${{ needs.get_version.outputs.version }}-linux-${{ matrix.arch }}.*
+          file: linux-${{ matrix.arch }}.*
           tag: ${{ github.ref }}
           overwrite: false
           file_glob: true
@@ -167,20 +167,20 @@ jobs:
           path: bin
       - run: tar -czvf $BIN.tar.gz bin/$BIN && rm -rf bin/
         env:
-          BIN: ipatool-${{ needs.get_version.outputs.version }}-macos-arm64
+          BIN: macos-arm64
       - uses: actions/download-artifact@v3
         with:
           name: macos-amd64
           path: bin
       - run: tar -czvf $FILE.tar.gz bin/$FILE && rm -rf bin/
         env:
-          FILE: ipatool-${{ needs.get_version.outputs.version }}-macos-amd64
+          FILE: macos-amd64
       - id: sha256
         run: |
-          SHA256_ARM64=$(./ipatool/tools/sha256sum.sh ipatool-${{ needs.get_version.outputs.version }}-macos-arm64.tar.gz)
-          SHA256_AMD64=$(./ipatool/tools/sha256sum.sh ipatool-${{ needs.get_version.outputs.version }}-macos-amd64.tar.gz)
-          echo $SHA256_ARM64 > ipatool-${{ needs.get_version.outputs.version }}-macos-arm64.tar.gz.sha256sum
-          echo $SHA256_AMD64 > ipatool-${{ needs.get_version.outputs.version }}-macos-amd64.tar.gz.sha256sum
+          SHA256_ARM64=$(./ipatool/tools/sha256sum.sh macos-arm64.tar.gz)
+          SHA256_AMD64=$(./ipatool/tools/sha256sum.sh macos-amd64.tar.gz)
+          echo $SHA256_ARM64 > macos-arm64.tar.gz.sha256sum
+          echo $SHA256_AMD64 > macos-amd64.tar.gz.sha256sum
           echo ::set-output name=sha256_arm64::$SHA256_ARM64
           echo ::set-output name=sha256_amd64::$SHA256_AMD64
       - uses: svenstaro/upload-release-action@v2
